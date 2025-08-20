@@ -2,41 +2,69 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Industrial AI Control Center Design System */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
+    /* Core Brand Colors */
+    --background: 215 25% 96%;
+    --foreground: 215 20% 15%;
+    --surface: 0 0% 100%;
+    
+    /* Industrial Theme */
+    --primary: 210 90% 48%;
+    --primary-light: 210 90% 58%;
+    --primary-glow: 210 90% 68%;
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 195 85% 45%;
+    --secondary-light: 195 85% 55%;
+    --secondary-foreground: 0 0% 100%;
+    
+    /* Status Colors */
+    --success: 142 72% 42%;
+    --success-light: 142 72% 52%;
+    --success-bg: 142 72% 96%;
+    
+    --warning: 35 85% 55%;
+    --warning-light: 35 85% 65%;
+    --warning-bg: 35 85% 96%;
+    
+    --error: 0 72% 55%;
+    --error-light: 0 72% 65%;
+    --error-bg: 0 72% 96%;
+    
+    --info: 210 90% 58%;
+    --info-light: 210 90% 68%;
+    --info-bg: 210 90% 96%;
+    
+    /* Neutral Palette */
+    --muted: 215 15% 94%;
+    --muted-foreground: 215 15% 45%;
+    --accent: 215 25% 92%;
+    --accent-foreground: 215 25% 25%;
+    
+    --border: 215 20% 88%;
+    --input: 215 20% 90%;
+    --ring: 210 90% 48%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-light)));
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--secondary-light)));
+    --gradient-surface: linear-gradient(180deg, hsl(var(--surface)), hsl(var(--accent)));
+    --gradient-glass: linear-gradient(135deg, hsla(0, 0%, 100%, 0.25), hsla(0, 0%, 100%, 0.1));
+    
+    /* Shadows */
+    --shadow-soft: 0 2px 8px -2px hsla(215, 25%, 25%, 0.1);
+    --shadow-medium: 0 4px 16px -4px hsla(215, 25%, 25%, 0.15);
+    --shadow-strong: 0 8px 32px -8px hsla(215, 25%, 25%, 0.2);
+    --shadow-glow: 0 0 24px hsla(var(--primary), 0.3);
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -56,6 +84,7 @@ All colors MUST be HSL.
   }
 
   .dark {
+    /* Dark mode overrides - keeping original for now */
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
 
@@ -101,5 +130,77 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+@layer components {
+  /* Industrial Card Components */
+  .card-industrial {
+    @apply bg-surface border border-border rounded-[var(--radius)] 
+           shadow-[var(--shadow-medium)] backdrop-blur-sm;
+  }
+  
+  .card-glass {
+    @apply bg-[var(--gradient-glass)] border border-border/50 rounded-[var(--radius)] 
+           shadow-[var(--shadow-soft)] backdrop-blur-md;
+  }
+  
+  /* Status Indicators */
+  .status-ok {
+    @apply bg-[hsl(var(--success-bg))] text-[hsl(var(--success))] 
+           border-[hsl(var(--success-light))];
+  }
+  
+  .status-warning {
+    @apply bg-[hsl(var(--warning-bg))] text-[hsl(var(--warning))] 
+           border-[hsl(var(--warning-light))];
+  }
+  
+  .status-error {
+    @apply bg-[hsl(var(--error-bg))] text-[hsl(var(--error))] 
+           border-[hsl(var(--error-light))];
+  }
+  
+  /* Machine Nodes */
+  .machine-node {
+    @apply w-24 h-24 rounded-2xl flex items-center justify-center 
+           border-4 transition-all duration-300 cursor-pointer
+           hover:scale-105 hover:shadow-[var(--shadow-glow)];
+  }
+  
+  /* Animations */
+  .animate-pulse-glow {
+    animation: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out;
+  }
+  
+  .animate-slide-up {
+    animation: slide-up 0.3s ease-out;
+  }
+}
+
+@layer utilities {
+  /* Custom animations */
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 20px hsla(var(--primary), 0.3);
+    }
+    50% {
+      box-shadow: 0 0 40px hsla(var(--primary), 0.6);
+    }
+  }
+  
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 }
